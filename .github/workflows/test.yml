@@ -13,6 +13,15 @@ jobs:
         with:
           python-version: "3.10"
 
+      - name: Cache APT Packages
+        uses: awalsh128/cache-apt-pkgs-action@v1.4.1
+        with:
+          # List borrowed from https://github.com/tlambert03/setup-qt-libs/blob/main/index.js
+          packages: libegl1 libdbus-1-3 libxkbcommon-x11-0 libxcb-icccm4 \
+            libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 \
+            libxcb-xinerama0 libxcb-xinput0 libxcb-xfixes0 x11-utils libxcb-cursor0 \
+            libopengl0 libegl1-mesa
+
       - uses: actions/cache@v4
         with:
           path: ~/.cache/pip
