@@ -9,6 +9,16 @@ readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["version", "description"]
+dependencies = [
+    "qtpy",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-qt",
+    # Plus at least 1 of PyQt5, PyQt6, PySide2, PySide6
+]
 
 [project.urls]
 Home = "https://github.com/takluyver/adeqt"
