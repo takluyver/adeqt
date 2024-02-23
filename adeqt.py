@@ -221,7 +221,7 @@ class AdeqtWidget(QtWidgets.QWidget):
         self.entry.setFocus()
 
         run_shortcut = QtWidgets.QShortcut(
-            QtGui.QKeySequence(Qt.CTRL + Qt.Key_Return), self.entry
+            QtGui.QKeySequence(Qt.CTRL | Qt.Key_Return), self.entry
         )
         run_shortcut.activated.connect(self.run)
 
@@ -307,7 +307,7 @@ class AdeqtWindow(QtWidgets.QMainWindow):
         super().__init__(parent)
         self.resize(800, 600)
         self.setCentralWidget(AdeqtWidget(variables, self))
-        close_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence(Qt.CTRL + Qt.Key_W), self)
+        close_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence(Qt.CTRL | Qt.Key_W), self)
         close_shortcut.activated.connect(self.close)
 
 
