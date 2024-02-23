@@ -34,7 +34,7 @@ jobs:
 
       - name: Run tests
         run: |
-          export QT_DEBUG_PLUGINS=1
           for binding in pyqt5 pyqt6 pyside2 pyside6; do
             PYTEST_QT_API=$binding QT_API=$binding pytest -v
+            echo -e "✅ $binding done\n"
           done
