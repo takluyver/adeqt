@@ -36,5 +36,5 @@ jobs:
         run: |
           for binding in pyqt5 pyqt6 pyside2 pyside6; do
             PYTEST_QT_API=$binding QT_API=$binding pytest -v
-            echo -e "✅ $binding done\n"
+            echo -e "✅ $binding done\n\n"
           done
