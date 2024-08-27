@@ -209,6 +209,7 @@ class AdeqtWidget(QtWidgets.QWidget):
         self.display = QtWidgets.QTextEdit()
         self.display.setFontFamily('monospace')
         self.display.setReadOnly(True)
+        self.write_cursor = self.display.textCursor()
         vbox.addWidget(self.display, stretch=3)
         self.output_stream = OutputStream(self)
 
@@ -230,7 +231,8 @@ class AdeqtWidget(QtWidgets.QWidget):
         vbox.addWidget(self.run_button)
 
     def write(self, text):
-        self.display.textCursor().insertText(text)
+        self.write_cursor.movePosition(QtGui.QTextCursor.MoveOperation.End)
+        self.write_cursor.insertText(text)
         vsb = self.display.verticalScrollBar()
         vsb.setValue(vsb.maximum())  # Scroll to end
 
