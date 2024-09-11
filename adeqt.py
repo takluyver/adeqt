@@ -257,7 +257,7 @@ class AdeqtWidget(QtWidgets.QWidget):
         self.setLayout(vbox)
 
         self.display = QtWidgets.QTextEdit()
-        self.display.setFontFamily('monospace')
+        self.display.document().setDefaultFont(QtGui.QFont("monospace"))
         self.display.setReadOnly(True)
         self.write_cursor = self.display.textCursor()
         vbox.addWidget(self.display, stretch=3)
