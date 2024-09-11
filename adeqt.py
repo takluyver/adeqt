@@ -105,6 +105,10 @@ class CodeEntry(QtWidgets.QPlainTextEdit):
     def __init__(self, namespace, parent=None):
         super().__init__(parent)
         self.namespace = namespace
+        self.history = []
+        self.new_hist_entry = ""  # To hold the new text entered, when looking at history
+        self.hist_index = 0  # -N (oldest entry) to 0 (not yet executed)
+        self.hist_limit = 1000
 
         self.document().setDefaultFont(QtGui.QFont("monospace"))
         self.setPlaceholderText("Type code here, Ctrl+Return to run")
@@ -115,12 +119,58 @@ class CodeEntry(QtWidgets.QPlainTextEdit):
 
         self._complete_attrs_key = None
 
+    def add_hist_and_reset(self, code):
+        self.history.append(code)
+        if len(self.history) > self.hist_limit:
+            n_drop = self.hist_limit // 5
+            self.history = self.history[n_drop:]
+        self.hist_index = 0
+        self.new_hist_entry = ""
+        self.clear()
+
+    def hist_up(self):
+        if self.hist_index <= -len(self.history):
+            return   # At oldest entry already
+
+        if self.hist_index == 0:
+            self.new_hist_entry = self.toPlainText()
+        self.hist_index -= 1
+        self.setPlainText(self.history[self.hist_index])
+        self.move_edit_cursor(QtGui.QTextCursor.End)
+
+    def hist_down(self):
+        if self.hist_index >= 0:
+            return  # At newest entry already
+
+        self.hist_index += 1
+        if self.hist_index == 0:
+            self.setPlainText(self.new_hist_entry)
+            self.new_hist_entry = ""
+        else:
+            self.setPlainText(self.history[self.hist_index])
+        self.move_edit_cursor(QtGui.QTextCursor.End)
+
+    def move_edit_cursor(self, op):
+        c = self.textCursor()
+        c.movePosition(op)
+        self.setTextCursor(c)
+
+    def can_move(self, op):
+        c = self.textCursor()
+        pos_before = c.position()
+        c.movePosition(op)
+        return c.position() != pos_before
+
     def keyPressEvent(self, e):
         k = e.key()
         if not self.completer.popup().isVisible():
             if k == Qt.Key_Tab:
                 self.show_completions()
                 return
+            elif (k == Qt.Key_Up) and not self.can_move(QtGui.QTextCursor.Up):
+                return self.hist_up()
+            elif (k == Qt.Key_Down) and not self.can_move(QtGui.QTextCursor.Down):
+                return self.hist_down()
             else:
                 return super().keyPressEvent(e)
 
@@ -271,7 +321,7 @@ class AdeqtWidget(QtWidgets.QWidget):
 
         if not mod.body:
             # No code to execute, e.g. only comments
-            self.entry.clear()
+            self.entry.add_hist_and_reset(code)
             return
 
         if isinstance(mod.body[-1], ast.Expr):
@@ -293,7 +343,7 @@ class AdeqtWidget(QtWidgets.QWidget):
                 return
 
         # At this point we've parsed & byte-compiled the entered code
-        self.entry.clear()
+        self.entry.add_hist_and_reset(code)
 
         with self.capture_output():
             try:
