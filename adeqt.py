@@ -33,7 +33,7 @@ from contextlib import contextmanager
 from qtpy import QtCore, QtGui, QtWidgets
 from qtpy.QtCore import Qt
 
-__version__ = "0.1.1"
+__version__ = "0.2"
 
 
 def add_prompt(code: str):
