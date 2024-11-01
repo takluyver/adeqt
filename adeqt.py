@@ -309,6 +309,11 @@ class AdeqtWidget(QtWidgets.QWidget):
 
     def run(self):
         code = self.entry.toPlainText()
+        if not code.rstrip():
+            # No input, or only whitespace
+            self.entry.clear()
+            return
+
         self.write(add_prompt(code))
 
         try:
