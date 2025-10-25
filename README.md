@@ -57,6 +57,8 @@ When using the console window:
 - Tab shows available completions
 - Ctrl-W closes the console window
 
+![Screenshot of adeqt console with some commands run](screenshot.png)
+
 ## Design & limitations
 
 - Adeqt is deliberately **simple**, providing a basic console experience. It's
