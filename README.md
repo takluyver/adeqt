@@ -3,6 +3,8 @@
 Adeqt gives you a Python shell inside your Qt applications using PyQt or PySide.
 You can use this for simple debugging or as a 'power user' feature.
 
+![Screenshot of adeqt console with some commands run](screenshot.png)
+
 ## How to use
 
 Install the adeqt package: `pip install adeqt`.
@@ -56,8 +58,6 @@ When using the console window:
 - Ctrl-Enter executes the existing code
 - Tab shows available completions
 - Ctrl-W closes the console window
-
-![Screenshot of adeqt console with some commands run](screenshot.png)
 
 ## Design & limitations
 
