@@ -30,11 +30,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install .[test] pyqt5 pyqt6 pyside2 pyside6 pytest-xvfb
+          pip install .[test] pyqt5 pyqt6 pyside6 pytest-xvfb
 
       - name: Run tests
         run: |
-          for binding in pyqt5 pyqt6 pyside2 pyside6; do
+          for binding in pyqt5 pyqt6 pyside6; do
             PYTEST_QT_API=$binding QT_API=$binding pytest -v
             echo -e "✅ $binding done\n\n"
           done
